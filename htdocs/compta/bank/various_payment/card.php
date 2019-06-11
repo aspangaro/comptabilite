@@ -272,13 +272,13 @@ if ($action == 'create')
 	// Date payment
 	print '<tr><td class="titlefieldcreate">';
 	print $form->editfieldkey('DatePayment', 'datep', '', $object, 0, 'string', '', 1).'</td><td>';
-	print $form->selectDate((empty($datep)?-1:$datep), "datep", '', '', '', 'add', 1, 1);
+	print $form->select_date((empty($datep)?-1:$datep), "datep", '', '', '', 'add', 1, 1);
 	print '</td></tr>';
 
 	// Date value for bank
 	print '<tr><td>';
 	print $form->editfieldkey('DateValue', 'datev', '', $object, 0).'</td><td>';
-	print $form->selectDate((empty($datev)?-1:$datev), "datev", '', '', '', 'add', 1, 1);
+	print $form->select_date((empty($datev)?-1:$datev), "datev", '', '', '', 'add', 1, 1);
 	print '</td></tr>';
 
 	// Label

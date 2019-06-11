@@ -215,11 +215,11 @@ if ($resql) {
     print '<td class="liste_titre center">';
     print '<div class="nowrap">';
     print $langs->trans('From') . ' ';
-    print $form->selectDate($search_date_start, 'date_creation_start', 0, 0, 1);
+    print $form->select_date($search_date_start, 'date_creation_start', 0, 0, 1);
     print '</div>';
     print '<div class="nowrap">';
     print $langs->trans('to') . ' ';
-    print $form->selectDate($search_date_end, 'date_creation_end', 0, 0, 1);
+    print $form->select_date($search_date_end, 'date_creation_end', 0, 0, 1);
     print '</div>';
     print '</td>';
 

@@ -475,11 +475,11 @@ if (! empty($arrayfields['t.doc_date']['checked']))
 	print '<td class="liste_titre center">';
 	print '<div class="nowrap">';
 	print $langs->trans('From') . ' ';
-	print $form->selectDate($search_date_start?$search_date_start:-1, 'search_date_start', 0, 0, 1);
+	print $form->select_date($search_date_start?$search_date_start:-1, 'search_date_start', 0, 0, 1);
 	print '</div>';
 	print '<div class="nowrap">';
 	print $langs->trans('to') . ' ';
-	print $form->selectDate($search_date_end?$search_date_end:-1, 'search_date_end', 0, 0, 1);
+	print $form->select_date($search_date_end?$search_date_end:-1, 'search_date_end', 0, 0, 1);
 	print '</div>';
 	print '</td>';
 }
@@ -573,11 +573,11 @@ if (! empty($arrayfields['t.date_creation']['checked']))
 	print '<td class="liste_titre center">';
 	print '<div class="nowrap">';
 	print $langs->trans('From') . ' ';
-	print $form->selectDate($search_date_creation_start, 'date_creation_start', 0, 0, 1);
+	print $form->select_date($search_date_creation_start, 'date_creation_start', 0, 0, 1);
 	print '</div>';
 	print '<div class="nowrap">';
 	print $langs->trans('to') . ' ';
-	print $form->selectDate($search_date_creation_end, 'date_creation_end', 0, 0, 1);
+	print $form->select_date($search_date_creation_end, 'date_creation_end', 0, 0, 1);
 	print '</div>';
 	print '</td>';
 }
@@ -587,11 +587,11 @@ if (! empty($arrayfields['t.tms']['checked']))
 	print '<td class="liste_titre center">';
 	print '<div class="nowrap">';
 	print $langs->trans('From') . ' ';
-	print $form->selectDate($search_date_modification_start, 'date_modification_start', 0, 0, 1);
+	print $form->select_date($search_date_modification_start, 'date_modification_start', 0, 0, 1);
 	print '</div>';
 	print '<div class="nowrap">';
 	print $langs->trans('to') . ' ';
-	print $form->selectDate($search_date_modification_end, 'date_modification_end', 0, 0, 1);
+	print $form->select_date($search_date_modification_end, 'date_modification_end', 0, 0, 1);
 	print '</div>';
 	print '</td>';
 }

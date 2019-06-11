@@ -190,7 +190,7 @@ if ($result)
 	// Date
 	print '<td class="liste_titre center">';
 	print '<div class="nowrap">';
-	print $form->selectDate($search_date, 'date_doc', 0, 0, 1);
+	print $form->select_date($search_date, 'date_doc', 0, 0, 1);
 	print '</div>';
 	print '</td>';
 
