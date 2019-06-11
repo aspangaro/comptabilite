@@ -214,7 +214,7 @@ $sql.= " l.rowid, l.fk_product, l.description, l.total_ht, l.fk_code_ventilation
 $sql.= " p.rowid as product_id, p.ref as product_ref, p.label as product_label, p.fk_product_type as type, p.accountancy_code_sell as code_sell, p.tva_tx as tva_tx_prod,";
 $sql.= " p.accountancy_code_sell_intra as code_sell_intra, p.accountancy_code_sell_export as code_sell_export,";
 $sql.= " aa.rowid as aarowid, aa2.rowid as aarowid_intra, aa3.rowid as aarowid_export,";
-$sql.= " co.code as country_code, co.label as country,";
+$sql.= " co.code as country_code, co.label as country_label,";
 $sql.= " s.tva_intra";
 $parameters=array();
 $reshook=$hookmanager->executeHooks('printFieldListSelect', $parameters);    // Note that $action and $object may have been modified by hook
@@ -333,8 +333,8 @@ if ($result) {
 	if ($search_desc)        $param.='&search_desc='.urlencode($search_desc);
 	if ($search_amount)      $param.='&search_amount='.urlencode($search_amount);
 	if ($search_vat)         $param.='&search_vat='.urlencode($search_vat);
-	if ($search_country)  	$param .= "&search_country=" . urlencode($search_country);
-	if ($search_tvaintra)	$param .= "&search_tvaintra=" . urlencode($search_tvaintra);
+	if ($search_country)  	 $param .= "&search_country=" . urlencode($search_country);
+	if ($search_tvaintra)	 $param .= "&search_tvaintra=" . urlencode($search_tvaintra);
 
 	$arrayofmassactions =  array(
 	    'ventil'=>$langs->trans("Ventilate")
@@ -385,8 +385,8 @@ if ($result) {
 	print '<td class="liste_titre"><input type="text" class="flat maxwidth50" name="search_ref" value="' . dol_escape_htmltag($search_ref) . '"></td>';
 	//print '<td class="liste_titre"><input type="text" class="flat maxwidth50" name="search_label" value="' . dol_escape_htmltag($search_label) . '"></td>';
 	print '<td class="liste_titre"><input type="text" class="flat maxwidthonsmartphone" name="search_desc" value="' . dol_escape_htmltag($search_desc) . '"></td>';
-	print '<td class="liste_titre right"><input type="text" class="flat maxwidth50 right" name="search_amount" value="' . dol_escape_htmltag($search_amount) . '"></td>';
-	print '<td class="liste_titre right"><input type="text" class="flat maxwidth50 right" name="search_vat" placeholder="%" size="1" value="' . dol_escape_htmltag($search_vat) . '"></td>';
+	print '<td class="liste_titre right"><input type="text" class="flat maxwidth50 center" name="search_amount" value="' . dol_escape_htmltag($search_amount) . '"></td>';
+	print '<td class="liste_titre right"><input type="text" class="flat maxwidth25 right" name="search_vat" placeholder="%" size="1" value="' . dol_escape_htmltag($search_vat) . '"></td>';
 	print '<td class="liste_titre">';
 	print $form->select_country($search_country, 'search_country', '', 0, 'maxwidth200', 'code2', 1, 0, 1);
 	//print '<input type="text" class="flat maxwidth50" name="search_country" value="' . dol_escape_htmltag($search_country) . '">';
@@ -407,7 +407,7 @@ if ($result) {
 	print_liste_field_titre("ProductRef", $_SERVER["PHP_SELF"], "p.ref", "", $param, '', $sortfield, $sortorder);
 	//print_liste_field_titre("ProductLabel", $_SERVER["PHP_SELF"], "p.label", "", $param, '', $sortfield, $sortorder);
 	print_liste_field_titre("Description", $_SERVER["PHP_SELF"], "l.description", "", $param, '', $sortfield, $sortorder);
-	print_liste_field_titre("Amount", $_SERVER["PHP_SELF"], "l.total_ht", "", $param, '', $sortfield, $sortorder, 'right ');
+	print_liste_field_titre("Amount", $_SERVER["PHP_SELF"], "l.total_ht", "", $param, '', $sortfield, $sortorder, 'center minwidth100 ');
 	print_liste_field_titre("VATRate", $_SERVER["PHP_SELF"], "l.tva_tx", "", $param, '', $sortfield, $sortorder, 'right ');
 	print_liste_field_titre("Country", $_SERVER["PHP_SELF"], "co.label", "", $param, '', $sortfield, $sortorder);
 	print_liste_field_titre("VATIntra", $_SERVER["PHP_SELF"], "s.tva_intra", "", $param, '', $sortfield, $sortorder, 'center ');
@@ -514,7 +514,10 @@ if ($result) {
 		print vatrate($objp->tva_tx_line.($objp->vat_src_code?' ('.$objp->vat_src_code.')':''));
 		print '</td>';
 
-		print '<td>' . $objp->country .'</td>';
+		print '<td>';
+        $labelcountry=($objp->country_code && ($langs->trans("Country".$objp->country_code)!="Country".$objp->country_code))?$langs->trans("Country".$objp->country_code):$objp->country_label;
+        print $labelcountry;
+        print '</td>';
 
 		print '<td>' . $objp->tva_intra . '</td>';
 
@@ -529,7 +532,7 @@ if ($result) {
 		print '</td>';
 
 		// Suggested accounting account
-		print '<td class="center">';
+		print '<td>';
 		print $formaccounting->select_account($objp->aarowid_suggest, 'codeventil'.$objp->rowid, 1, array(), 0, 0, 'codeventil maxwidth300 maxwidthonsmartphone', 'cachewithshowemptyone');
 		print '</td>';
 
