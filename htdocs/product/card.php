@@ -1693,7 +1693,6 @@ else
 					{
 						$accountingaccount2 = new AccountingAccount($db);
 						$accountingaccount2->fetch('',$object->accountancy_code_sell_intra,1);
-
 						print $accountingaccount2->getNomUrl(0,1,1,'',1);
 					}
 				} else {
@@ -1712,7 +1711,6 @@ else
 				{
 					$accountingaccount3 = new AccountingAccount($db);
 					$accountingaccount3->fetch('',$object->accountancy_code_sell_export,1);
-
 					print $accountingaccount3->getNomUrl(0,1,1,'',1);
 				}
 			} else {
