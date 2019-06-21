@@ -1552,7 +1552,7 @@ else
 				print '<tr><td class="titlefield">'.$langs->trans("ProductAccountancySellExportCode").'</td>';
 				print '<td><input name="accountancy_code_sell_export" class="maxwidth200" value="'.$object->accountancy_code_sell_export.'">';
 				print '</td></tr>';
-				
+
 				// Accountancy_code_buy
 				print '<tr><td>'.$langs->trans("ProductAccountancyBuyCode").'</td>';
 				print '<td><input name="accountancy_code_buy" class="maxwidth200" value="'.$object->accountancy_code_buy.'">';
