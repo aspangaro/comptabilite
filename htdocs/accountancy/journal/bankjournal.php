@@ -27,7 +27,7 @@
 
 /**
  *  \file       htdocs/accountancy/journal/bankjournal.php
- *  \ingroup    Advanced accountancy
+ *  \ingroup    Accountancy (Double entries)
  *  \brief      Page with bank journal
  */
 require '../../main.inc.php';
@@ -992,9 +992,9 @@ if (empty($action) || $action == 'view') {
 	print "<td>" . $langs->trans("AccountAccounting") . "</td>";
 	print "<td>" . $langs->trans("SubledgerAccount") . "</td>";
 	print "<td>" . $langs->trans("LabelOperation") . "</td>";
-	print "<td class='center'>" . $langs->trans("PaymentMode") . "</td>";
-	print "<td class='minwidth100 center'>" . $langs->trans("Debit") . "</td>";
-	print "<td class='minwidth100 center'>" . $langs->trans("Credit") . "</td>";
+	print '<td class="center">' . $langs->trans("PaymentMode") . "</td>";
+	print '<td class="right">' . $langs->trans("Debit") . "</td>";
+	print '<td class="right">' . $langs->trans("Credit") . "</td>";
 	print "</tr>\n";
 
 	$r = '';
@@ -1041,9 +1041,9 @@ if (empty($action) || $action == 'view') {
 				print "<td>";
 				print $reflabel;
 				print "</td>";
-				print "<td class='center'>" . $val["type_payment"] . "</td>";
-				print "<td class='minwidth100 right'>" . ($mt >= 0 ? price($mt) : '') . "</td>";
-				print "<td class='minwidth100 right'>" . ($mt < 0 ? price(- $mt) : '') . "</td>";
+				print '<td class="center">' . $val["type_payment"] . "</td>";
+				print '<td class="right nowraponall">' . ($mt >= 0 ? price($mt) : '') . "</td>";
+				print '<td class="right nowraponall">' . ($mt < 0 ? price(- $mt) : '') . "</td>";
 				print "</tr>";
 			}
 		}
@@ -1122,9 +1122,9 @@ if (empty($action) || $action == 'view') {
 					}
 					print "</td>";
 					print "<td>" . $reflabel . "</td>";
-					print "<td class='center'>" . $val["type_payment"] . "</td>";
-					print "<td class='minwidth100 right'>" . ($mt < 0 ? price(- $mt) : '') . "</td>";
-					print "<td class='minwidth100 right'>" . ($mt >= 0 ? price($mt) : '') . "</td>";
+					print '<td class="center">' . $val["type_payment"] . "</td>";
+					print '<td class="right nowraponall">' . ($mt < 0 ? price(- $mt) : '') . "</td>";
+					print '<td class="right nowraponall">' . ($mt >= 0 ? price($mt) : '') . "</td>";
 					print "</tr>";
 				}
 			}
@@ -1158,9 +1158,9 @@ if (empty($action) || $action == 'view') {
 					*/
 					print "</td>";
 					print "<td>" . $reflabel . "</td>";
-					print "<td class='center'>" . $val["type_payment"] . "</td>";
-					print "<td class='minwidth100 right'>" . ($mt < 0 ? price(- $mt) : '') . "</td>";
-					print "<td class='minwidth100 right'>" . ($mt >= 0 ? price($mt) : '') . "</td>";
+					print '<td class="center">' . $val["type_payment"] . "</td>";
+					print '<td class="right nowraponall">' . ($mt < 0 ? price(- $mt) : '') . "</td>";
+					print '<td class="right nowraponall">' . ($mt >= 0 ? price($mt) : '') . "</td>";
 					print "</tr>";
 				}
 			}
