@@ -21,7 +21,7 @@
 
 /**
  *  \file 		htdocs/accountancy/bookkeeping/balance.php
- *  \ingroup 	Advanced accountancy
+ *  \ingroup 	Accountancy (Double entries)
  *  \brief 		Balance of book keeping
  */
 
@@ -211,9 +211,9 @@ if ($action != 'export_csv')
 
 	$moreforfilter .= '<div class="divsearchfield">';
 	$moreforfilter .= $langs->trans('DateStart') . ': ';
-	$moreforfilter .= $form->select_date($search_date_start?$search_date_start:-1, 'date_start', 0, 0, 1, '', 1, 0, 1);
+	$moreforfilter .= $form->selectDate($search_date_start?$search_date_start:-1, 'date_start', 0, 0, 1, '', 1, 0);
 	$moreforfilter .= $langs->trans('DateEnd') . ': ';
-	$moreforfilter .= $form->select_date($search_date_end?$search_date_end:-1, 'date_end', 0, 0, 1, '', 1, 0, 1);
+	$moreforfilter .= $form->selectDate($search_date_end?$search_date_end:-1, 'date_end', 0, 0, 1, '', 1, 0);
 	$moreforfilter .= '</div>';
 
 	if (! empty($moreforfilter)) {

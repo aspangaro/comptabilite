@@ -21,7 +21,7 @@
 
 /**
  * \file 		htdocs/accountancy/bookkeeping/listbyaccount.php
- * \ingroup 	Advanced accountancy
+ * \ingroup 	Accountancy (Double entries)
  * \brief 		List operation of book keeping ordered by account number
  */
 
@@ -286,10 +286,10 @@ print '</td>';
 print '<td class="liste_titre"></td>';
 print '<td class="liste_titre center">';
 print $langs->trans('From') . ': ';
-print $form->select_date($search_date_start, 'search_date_start', 0, 0, 1);
+print $form->selectDate($search_date_start, 'search_date_start', 0, 0, 1);
 print '<br>';
 print $langs->trans('to') . ': ';
-print $form->select_date($search_date_end, 'search_date_end', 0, 0, 1);
+print $form->selectDate($search_date_end, 'search_date_end', 0, 0, 1);
 print '</td>';
 print '<td class="liste_titre"><input type="text" size="7" class="flat" name="search_doc_ref" value="' . dol_escape_htmltag($search_doc_ref) . '"/></td>';
 print '<td class="liste_titre"><input type="text" size="7" class="flat" name="search_label_operation" value="' . dol_escape_htmltag($search_label_operation) . '"/></td>';
@@ -348,7 +348,7 @@ while ($i < min($num, $limit))
 		$colspan = 9;
 		print "<tr>";
 		print '<td colspan="'.$colspan.'" style="font-weight:bold; border-bottom: 1pt solid black;">';
-		if (! empty($line->numero_compte) && $line->numero_compte != '-1') print length_accountg($line->numero_compte) . ' : ' . $object->get_compte_desc($line->numero_compte);
+		if ($line->numero_compte != "" && $line->numero_compte != '-1') print length_accountg($line->numero_compte) . ' : ' . $object->get_compte_desc($line->numero_compte);
 		else print '<span class="error">'.$langs->trans("Unknown").'</span>';
 		print '</td>';
 		print '</tr>';

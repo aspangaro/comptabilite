@@ -362,7 +362,7 @@ if ($action == 'create')
 	print '<tr>';
 	print '<td class="titlefieldcreate fieldrequired">' . $langs->trans("Docdate") . '</td>';
 	print '<td>';
-	print $html->select_date('', 'doc_date', '', '', '', "create_mvt", 1, 1);
+	print $html->selectDate('', 'doc_date', '', '', '', "create_mvt", 1, 1);
 	print '</td>';
 	print '</tr>';
 
@@ -444,7 +444,7 @@ if ($action == 'create')
 			print '<input type="hidden" name="token" value="' . $_SESSION ['newtoken'] . '">';
 			print '<input type="hidden" name="action" value="setdate">';
 			print '<input type="hidden" name="mode" value="'.$mode.'">';
-			print $form->select_date($object->doc_date ? $object->doc_date : - 1, 'doc_date', '', '', '', "setdate");
+			print $form->selectDate($object->doc_date ? $object->doc_date : - 1, 'doc_date', '', '', '', "setdate");
 			print '<input type="submit" class="button" value="' . $langs->trans('Modify') . '">';
 			print '</form>';
 		} else {
@@ -626,7 +626,7 @@ if ($action == 'create')
 						}
 						else
 						{
-							print '<input type="text" name="subledger_account" value="'.(GETPOSTISSET("subledger_account") ? GETPOST("subledger_account", "alpha") : $line->subledger_account).'">';
+							print '<input type="text" class="maxwidth150" name="subledger_account" value="'.(GETPOSTISSET("subledger_account") ? GETPOST("subledger_account", "alpha") : $line->subledger_account).'">';
 						}
 						print '</td>';
 						print '<td><input type="text" class="minwidth200" name="label_operation" value="' . (GETPOSTISSET("label_operation") ? GETPOST("label_operation", "alpha") : $line->label_operation). '"></td>';
@@ -683,7 +683,7 @@ if ($action == 'create')
 					}
 					else
 					{
-						print '<input type="text" name="subledger_account" value="">';
+						print '<input type="text" class="maxwidth150" name="subledger_account" value="">';
 					}
 					print '</td>';
 					print '<td><input type="text" class="minwidth200" name="label_operation" value="'.$label_operation.'"/></td>';

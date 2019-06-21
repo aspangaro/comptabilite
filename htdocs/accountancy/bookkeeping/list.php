@@ -309,8 +309,10 @@ if ($action == 'delbookkeeping') {
 		if ($result < 0) {
 			setEventMessages($object->error, $object->errors, 'errors');
 		}
-		Header("Location: list.php");
-		exit();
+
+		// Make a redirect to avoid to launch the delete later after a back button
+		header("Location: list.php".($param?'?'.$param:''));
+		exit;
 	}
 }
 if ($action == 'delbookkeepingyearconfirm') {
@@ -334,14 +336,14 @@ if ($action == 'delbookkeepingyearconfirm') {
 		{
 			setEventMessages("RecordDeleted", null, 'mesgs');
 		}
-		Header("Location: list.php");
+
+		// Make a redirect to avoid to launch the delete later after a back button
+		header("Location: list.php".($param?'?'.$param:''));
 		exit;
 	}
 	else
 	{
 		setEventMessages("NoRecordDeleted", null, 'warnings');
-		Header("Location: list.php");
-		exit;
 	}
 }
 if ($action == 'delmouvconfirm') {
@@ -358,7 +360,7 @@ if ($action == 'delmouvconfirm') {
 			setEventMessages($langs->trans("RecordDeleted"), null, 'mesgs');
 		}
 
-		Header("Location: list.php?noreset=1".($param?'&'.$param:''));
+		header("Location: list.php?noreset=1".($param?'&'.$param:''));
 		exit;
 	}
 }
@@ -481,7 +483,7 @@ if ($action == 'delbookkeepingyear') {
 			'default' => $deljournal
 	);
 
-	$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"], $langs->trans('DeleteMvt'), $langs->trans('ConfirmDeleteMvt'), 'delbookkeepingyearconfirm', $form_question, 0, 1, 250);
+	$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"].'?'.$param, $langs->trans('DeleteMvt'), $langs->trans('ConfirmDeleteMvt'), 'delbookkeepingyearconfirm', $form_question, 0, 1, 250);
 	print $formconfirm;
 }
 
@@ -498,8 +500,9 @@ print '<input type="hidden" name="sortfield" value="'.$sortfield.'">';
 print '<input type="hidden" name="sortorder" value="'.$sortorder.'">';
 print '<input type="hidden" name="page" value="'.$page.'">';
 
+$button .= '<a class="butAction" title="" name="button_export_file" href="'.$_SERVER["PHP_SELF"].'?action=export_file'.($param?'&'.$param:'').'">';
+
 $listofformat=AccountancyExport::getType();
-$newcardbutton.= '<a class="butAction" title="" name="button_export_file" href="'.$_SERVER["PHP_SELF"].'?action=export_file'.($param?'&'.$param:'').'">';
 if (count($filter)) $buttonLabel = $langs->trans("ExportFilteredList");
 else $buttonLabel = $langs->trans("ExportList");
 
@@ -509,17 +512,13 @@ if (! empty($conf->global->ACCOUNTING_REEXPORT)) {
 } else {
     $newcardbutton ='<a href="'.$_SERVER['PHP_SELF'].'?action=setreexport&value=1'.($param?'&'.$param:'').'">'.img_picto($langs->trans("Disabled"), 'switch_off').'</a> ';
 }
-$newcardbutton.= $langs->trans("IncludeDocsAlreadyExported");
+$newcardbutton.= '<span class="valignmiddle marginrightonly">'.$langs->trans("IncludeDocsAlreadyExported").'</span>';
 
-$newcardbutton= '<a class="butAction" name="button_export_file" href="'.$_SERVER["PHP_SELF"].'?action=export_file'.($param?'&'.$param:'').'">';
-if (count($filter)) $newcardbutton.= $langs->trans("ExportFilteredList");
-else $newcardbutton.= $langs->trans("ExportList");
-//$button.=' ('.$listofformat[$conf->global->ACCOUNTING_EXPORT_MODELCSV].')';
-$newcardbutton.= '</a>';
-$newcardbutton.= ' <a class="nohover marginrightonly" href="'.DOL_URL_ROOT.'/accountancy/bookkeeping/listbyaccount.php?'.$param.'">' . $langs->trans("GroupByAccountAccounting") . '</a>';
-$newcardbutton.= '<a class="butActionNew" href="./card.php?action=create"><span class="valignmiddle">' . $langs->trans("NewAccountingMvt").'</span>';
-$newcardbutton.= '<span class="fa fa-plus-circle valignmiddle"></span>';
-$newcardbutton.= '</a>';
+$newcardbutton.= dolGetButtonTitle($buttonLabel, $langs->trans("ExportFilteredList").' ('.$listofformat[$conf->global->ACCOUNTING_EXPORT_MODELCSV].')', 'fa fa-file-export paddingleft', $_SERVER["PHP_SELF"].'?action=export_file'.($param?'&'.$param:''));
+
+$newcardbutton.= dolGetButtonTitle($langs->trans('GroupByAccountAccounting'), '', 'fa fa-stream paddingleft', DOL_URL_ROOT.'/accountancy/bookkeeping/listbyaccount.php?'.$param);
+
+$newcardbutton.= dolGetButtonTitle($langs->trans('NewAccountingMvt'), '', 'fa fa-plus-circle paddingleft', './card.php?action=create');
 
 print_barre_liste($title_page, $page, $_SERVER["PHP_SELF"], $param, $sortfield, $sortorder, '', $result, $nbtotalofrecords, 'title_accountancy', 0, $newcardbutton, '', $limit);
 
@@ -543,11 +542,11 @@ if (! empty($arrayfields['t.doc_date']['checked']))
 	print '<td class="liste_titre center">';
 	print '<div class="nowrap">';
 	print $langs->trans('From') . ' ';
-	print $form->select_date($search_date_start?$search_date_start:-1, 'search_date_start', 0, 0, 1);
+	print $form->selectDate($search_date_start?$search_date_start:-1, 'search_date_start', 0, 0, 1);
 	print '</div>';
 	print '<div class="nowrap">';
 	print $langs->trans('to') . ' ';
-	print $form->select_date($search_date_end?$search_date_end:-1, 'search_date_end', 0, 0, 1);
+	print $form->selectDate($search_date_end?$search_date_end:-1, 'search_date_end', 0, 0, 1);
 	print '</div>';
 	print '</td>';
 }
@@ -584,7 +583,7 @@ if (! empty($arrayfields['t.subledger_account']['checked']))
 	}
 	else
 	{
-		print '<input type="text" name="search_accountancy_aux_code_start" value="'.$search_accountancy_aux_code_start.'">';
+		print '<input type="text" class="maxwidth100" name="search_accountancy_aux_code_start" value="'.$search_accountancy_aux_code_start.'">';
 	}
 	print '</div>';
 	print '<div class="nowrap">';
@@ -597,7 +596,7 @@ if (! empty($arrayfields['t.subledger_account']['checked']))
 	}
 	else
 	{
-		print '<input type="text" name="search_accountancy_aux_code_end" value="'.$search_accountancy_aux_code_end.'">';
+		print '<input type="text" class="maxwidth100" name="search_accountancy_aux_code_end" value="'.$search_accountancy_aux_code_end.'">';
 	}
 	print '</div>';
 	print '</td>';
@@ -641,11 +640,11 @@ if (! empty($arrayfields['t.date_creation']['checked']))
 	print '<td class="liste_titre center">';
 	print '<div class="nowrap">';
 	print $langs->trans('From') . ' ';
-	print $form->select_date($search_date_creation_start, 'date_creation_start', 0, 0, 1);
+	print $form->selectDate($search_date_creation_start, 'date_creation_start', 0, 0, 1);
 	print '</div>';
 	print '<div class="nowrap">';
 	print $langs->trans('to') . ' ';
-	print $form->select_date($search_date_creation_end, 'date_creation_end', 0, 0, 1);
+	print $form->selectDate($search_date_creation_end, 'date_creation_end', 0, 0, 1);
 	print '</div>';
 	print '</td>';
 }
@@ -655,11 +654,11 @@ if (! empty($arrayfields['t.tms']['checked']))
 	print '<td class="liste_titre center">';
 	print '<div class="nowrap">';
 	print $langs->trans('From') . ' ';
-	print $form->select_date($search_date_modification_start, 'date_modification_start', 0, 0, 1);
+	print $form->selectDate($search_date_modification_start, 'date_modification_start', 0, 0, 1);
 	print '</div>';
 	print '<div class="nowrap">';
 	print $langs->trans('to') . ' ';
-	print $form->select_date($search_date_modification_end, 'date_modification_end', 0, 0, 1);
+	print $form->selectDate($search_date_modification_end, 'date_modification_end', 0, 0, 1);
 	print '</div>';
 	print '</td>';
 }
@@ -669,11 +668,11 @@ if (! empty($arrayfields['t.date_export']['checked']))
     print '<td class="liste_titre center">';
     print '<div class="nowrap">';
     print $langs->trans('From') . ' ';
-    print $form->select_date($search_date_export_start, 'date_export_start', 0, 0, 1);
+    print $form->selectDate($search_date_export_start, 'date_export_start', 0, 0, 1);
     print '</div>';
     print '<div class="nowrap">';
     print $langs->trans('to') . ' ';
-    print $form->select_date($search_date_export_end, 'date_export_end', 0, 0, 1);
+    print $form->selectDate($search_date_export_end, 'date_export_end', 0, 0, 1);
     print '</div>';
     print '</td>';
 }
@@ -819,8 +818,10 @@ if ($num > 0)
 
 		// Action column
 		print '<td class="nowraponall center">';
-        print '<a href="'.DOL_URL_ROOT.'/accountancy/bookkeeping/card.php?piece_num=' . $line->piece_num . $param . '&page=' . $page . ($sortfield ? '&sortfield='.$sortfield : '') . ($sortorder ? '&sortorder='.$sortorder : '') . '">' . img_edit() . '</a>&nbsp;';
-		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=delmouv&mvt_num=' . $line->piece_num . $param . '&page=' . $page . ($sortfield ? '&sortfield='.$sortfield : '') . ($sortorder ? '&sortorder='.$sortorder : '') . '">' . img_delete() . '</a>';
+        if(empty($line->date_export)) {
+		    print '<a href="'.DOL_URL_ROOT.'/accountancy/bookkeeping/card.php?piece_num=' . urlencode($line->piece_num) . $param . '&page=' . $page . ($sortfield ? '&sortfield='.$sortfield : '') . ($sortorder ? '&sortorder='.$sortorder : '') . '">' . img_edit() . '</a>&nbsp;';
+		    print '<a href="' . $_SERVER['PHP_SELF'] . '?action=delmouv&mvt_num=' . urlencode($line->piece_num) . $param . '&page=' . $page . ($sortfield ? '&sortfield='.$sortfield : '') . ($sortorder ? '&sortorder='.$sortorder : '') . '">' . img_delete() . '</a>';
+        }
         print '</td>';
 		if (! $i) $totalarray['nbfield']++;
 
