@@ -1692,17 +1692,18 @@ class BookKeeping extends CommonObject
 		if ($direction==0)
 		{
 			$next_piecenum=$this->getNextNumMvt();
+            $now = dol_now();
 			if ($next_piecenum < 0) {
 				$error++;
 			}
 			$sql = 'INSERT INTO ' . MAIN_DB_PREFIX . $this->table_element.'(doc_date, doc_type,';
 			$sql .= ' doc_ref, fk_doc, fk_docdet, entity, thirdparty_code, subledger_account, subledger_label,';
 			$sql .= ' numero_compte, label_compte, label_operation, debit, credit,';
-			$sql .= ' montant, sens, fk_user_author, import_key, code_journal, journal_label, piece_num)';
+			$sql .= ' montant, sens, fk_user_author, import_key, code_journal, journal_label, piece_num, date_creation)';
 			$sql .= 'SELECT doc_date, doc_type,';
 			$sql .= ' doc_ref, fk_doc, fk_docdet, entity, thirdparty_code, subledger_account, subledger_label,';
 			$sql .= ' numero_compte, label_compte, label_operation, debit, credit,';
-			$sql .= ' montant, sens, fk_user_author, import_key, code_journal, journal_label, '.$next_piecenum.'';
+			$sql .= ' montant, sens, fk_user_author, import_key, code_journal, journal_label, '.$next_piecenum.', "'.$this->db->idate($now).'"';
 			$sql .= ' FROM '.MAIN_DB_PREFIX . $this->table_element.'_tmp WHERE piece_num = '.$piece_num;
 			$resql = $this->db->query($sql);
 			if (! $resql) {
